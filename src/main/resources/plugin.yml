@@ -1,0 +1,52 @@
+name: HomaDinamit
+version: '${project.version}'
+main: ru.homa.dinamit.HomaDinamitPlugin
+api-version: '1.20'
+description: Плагин разнообразного динамита — взрывайте мир красиво!
+authors:
+  - Homa
+website: https://github.com/tikdemon92-lgtm/homa
+
+commands:
+  dinamit:
+    description: Открыть меню динамита HomaDinamit
+    usage: /dinamit
+    aliases:
+      - homadinamit
+      - hd
+      - взрыв
+
+permissions:
+  homadinamit.use:
+    description: Разрешение на использование меню динамита
+    default: true
+  homadinamit.give:
+    description: Разрешение выдавать динамит другим игрокам
+    default: op
+  homadinamit.admin:
+    description: Полный доступ администратора к плагину HomaDinamit
+    default: op
+  homadinamit.type.obychnyi:
+    description: Доступ к обычному динамиту
+    default: true
+  homadinamit.type.moshchnyi:
+    description: Доступ к мощному динамиту
+    default: true
+  homadinamit.type.ognenyi:
+    description: Доступ к огненному динамиту
+    default: true
+  homadinamit.type.ledyanoi:
+    description: Доступ к ледяному динамиту
+    default: op
+  homadinamit.type.molnievyi:
+    description: Доступ к молниевому динамиту
+    default: op
+  homadinamit.type.klasternyi:
+    description: Доступ к кластерному динамиту
+    default: op
+  homadinamit.type.podvodnyi:
+    description: Доступ к подводному динамиту
+    default: op
+  homadinamit.type.yadernyi:
+    description: Доступ к ядерному динамиту
+    default: op
