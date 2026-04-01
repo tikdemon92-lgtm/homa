@@ -28,6 +28,8 @@
     </repositories>
 
     <dependencies>
+        <!-- Paper API для компиляции.
+             Для Java 21+ можно использовать: 1.21.4-R0.1-SNAPSHOT -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>

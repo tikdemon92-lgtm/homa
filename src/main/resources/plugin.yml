@@ -1,7 +1,7 @@
 name: HomaDinamit
 version: '${project.version}'
 main: ru.homa.dinamit.HomaDinamitPlugin
-api-version: '1.20'
+api-version: '1.21'
 description: Плагин разнообразного динамита — взрывайте мир красиво!
 authors:
   - Homa

@@ -30,7 +30,8 @@ public enum DinamitType {
             3.0f,
             false,
             "homadinamit.type.obychnyi",
-            1
+            1,
+            1001
     ),
 
     MOSHCHNYI(
@@ -51,7 +52,8 @@ public enum DinamitType {
             6.0f,
             false,
             "homadinamit.type.moshchnyi",
-            2
+            2,
+            1002
     ),
 
     OGNENYI(
@@ -72,7 +74,8 @@ public enum DinamitType {
             4.0f,
             true,
             "homadinamit.type.ognenyi",
-            3
+            3,
+            1003
     ),
 
     LEDYANOI(
@@ -93,7 +96,8 @@ public enum DinamitType {
             5.0f,
             false,
             "homadinamit.type.ledyanoi",
-            4
+            4,
+            1004
     ),
 
     MOLNIEVYI(
@@ -114,7 +118,8 @@ public enum DinamitType {
             4.0f,
             false,
             "homadinamit.type.molnievyi",
-            5
+            5,
+            1005
     ),
 
     KLASTERNYI(
@@ -135,7 +140,8 @@ public enum DinamitType {
             3.0f,
             false,
             "homadinamit.type.klasternyi",
-            6
+            6,
+            1006
     ),
 
     PODVODNYI(
@@ -156,7 +162,8 @@ public enum DinamitType {
             4.0f,
             false,
             "homadinamit.type.podvodnyi",
-            7
+            7,
+            1007
     ),
 
     YADERNYI(
@@ -177,7 +184,8 @@ public enum DinamitType {
             15.0f,
             false,
             "homadinamit.type.yadernyi",
-            8
+            8,
+            1008
     );
 
     private final String id;
@@ -188,9 +196,12 @@ public enum DinamitType {
     private final boolean setFire;
     private final String permission;
     private final int guiSlot;
+    /** Значение Custom Model Data для иконки ресурс-пака (PAPER с CMDом). */
+    private final int customModelData;
 
     DinamitType(String id, String displayName, List<String> lore, Material material,
-                float explosionPower, boolean setFire, String permission, int guiSlot) {
+                float explosionPower, boolean setFire, String permission, int guiSlot,
+                int customModelData) {
         this.id = id;
         this.displayName = displayName;
         this.lore = lore;
@@ -199,6 +210,7 @@ public enum DinamitType {
         this.setFire = setFire;
         this.permission = permission;
         this.guiSlot = guiSlot;
+        this.customModelData = customModelData;
     }
 
     public String getId() { return id; }
@@ -209,9 +221,11 @@ public enum DinamitType {
     public boolean isSetFire() { return setFire; }
     public String getPermission() { return permission; }
     public int getGuiSlot() { return guiSlot; }
+    public int getCustomModelData() { return customModelData; }
 
     /**
      * Создаёт ItemStack для данного типа динамита с указанным количеством.
+     * Это настоящий предмет, который кладётся в инвентарь игрока.
      */
     public ItemStack createItem(int amount) {
         ItemStack item = new ItemStack(material, amount);
@@ -219,7 +233,6 @@ public enum DinamitType {
         if (meta != null) {
             meta.setDisplayName(displayName);
             meta.setLore(lore);
-            // Помечаем предмет как динамит с помощью постоянного ключа данных
             item.setItemMeta(meta);
         }
         return item;
@@ -233,10 +246,45 @@ public enum DinamitType {
     }
 
     /**
+     * Создаёт отображаемый предмет для GUI меню.
+     * Использует бумагу (Material.PAPER) с Custom Model Data, чтобы ресурс-пак
+     * мог заменить текстуру на иконку из набора CyberTenfa.
+     */
+    public ItemStack createGuiItem() {
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(displayName);
+            meta.setLore(lore);
+            meta.setCustomModelData(customModelData);
+            item.setItemMeta(meta);
+        }
+        return item;
+    }
+
+    /**
+     * Создаёт заблокированный предмет для GUI (нет прав).
+     */
+    public ItemStack createLockedGuiItem() {
+        ItemStack item = new ItemStack(Material.RED_STAINED_GLASS_PANE);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName("§c✖ §7" + stripColor(displayName));
+            meta.setLore(Arrays.asList(
+                    "§cДоступ закрыт",
+                    "§7У вас нет разрешения",
+                    "§7на использование этого",
+                    "§7вида динамита.",
+                    "",
+                    "§8Требуется право: §c" + permission
+            ));
+            item.setItemMeta(meta);
+        }
+        return item;
+    }
+
+    /**
      * Находит тип динамита по его строковому идентификатору (без учёта регистра).
-     *
-     * @param id идентификатор типа
-     * @return тип динамита или {@code null}, если не найден
      */
     public static DinamitType fromId(String id) {
         if (id == null) return null;
@@ -248,9 +296,6 @@ public enum DinamitType {
 
     /**
      * Находит тип динамита по ItemStack (сравнивает отображаемое имя).
-     *
-     * @param item предмет для проверки
-     * @return тип динамита или {@code null}, если не найден
      */
     public static DinamitType fromItem(ItemStack item) {
         if (item == null || !item.hasItemMeta()) return null;
@@ -261,5 +306,9 @@ public enum DinamitType {
             if (type.displayName.equals(name)) return type;
         }
         return null;
+    }
+
+    private static String stripColor(String text) {
+        return text.replaceAll("§[0-9a-fk-or]", "");
     }
 }

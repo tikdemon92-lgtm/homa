@@ -10,7 +10,6 @@ import ru.homa.dinamit.HomaDinamitPlugin;
 import ru.homa.dinamit.types.DinamitType;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Класс отвечает за создание и отображение GUI-меню плагина HomaDinamit.
@@ -79,9 +78,9 @@ public class DinamitGUI {
         for (DinamitType type : DinamitType.values()) {
             if (slotIndex >= slots.length) break;
             if (!player.hasPermission(type.getPermission())) {
-                inv.setItem(slots[slotIndex], createLockedItem(type));
+                inv.setItem(slots[slotIndex], type.createLockedGuiItem());
             } else {
-                inv.setItem(slots[slotIndex], type.createItem());
+                inv.setItem(slots[slotIndex], type.createGuiItem());
             }
             slotIndex++;
         }
@@ -113,27 +112,6 @@ public class DinamitGUI {
     }
 
     /**
-     * Создаёт заблокированный (недоступный) предмет динамита для отображения в меню.
-     */
-    private ItemStack createLockedItem(DinamitType type) {
-        ItemStack item = new ItemStack(Material.BARRIER);
-        ItemMeta meta = item.getItemMeta();
-        if (meta != null) {
-            meta.setDisplayName("§c✖ §7" + stripColor(type.getDisplayName()));
-            meta.setLore(Arrays.asList(
-                    "§cДоступ закрыт",
-                    "§7У вас нет разрешения",
-                    "§7на использование этого",
-                    "§7вида динамита.",
-                    "",
-                    "§8Требуется право: §c" + type.getPermission()
-            ));
-            item.setItemMeta(meta);
-        }
-        return item;
-    }
-
-    /**
      * Создаёт декоративный заполнитель (стеклянную панель) без текста.
      */
     private ItemStack createFiller(Material material, String name) {
@@ -144,13 +122,6 @@ public class DinamitGUI {
             item.setItemMeta(meta);
         }
         return item;
-    }
-
-    /**
-     * Удаляет цветовые коды из строки для отображения заблокированных предметов.
-     */
-    private String stripColor(String text) {
-        return text.replaceAll("§[0-9a-fk-or]", "");
     }
 
     /**

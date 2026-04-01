@@ -11,6 +11,9 @@ import ru.homa.dinamit.managers.CooldownManager;
 import ru.homa.dinamit.managers.ExplosionManager;
 import ru.homa.dinamit.types.DinamitType;
 
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -56,6 +59,9 @@ public class HomaDinamitPlugin extends JavaPlugin {
 
         // Приветственное сообщение в консоли
         printBanner();
+
+        // Извлекаем файлы ресурс-пака для удобного обновления текстур
+        extractResourcePack();
     }
 
     @Override
@@ -108,6 +114,49 @@ public class HomaDinamitPlugin extends JavaPlugin {
     public CooldownManager getCooldownManager() { return cooldownManager; }
     public ExplosionManager getExplosionManager() { return explosionManager; }
     public DinamitGUI getGui() { return gui; }
+
+    /**
+     * Извлекает файлы ресурс-пака из jar-файла плагина в папку
+     * {@code plugins/HomaDinamit/resourcepack/}.
+     * Эти файлы нужно добавить в ваш ресурс-пак для отображения
+     * кастомных иконок в GUI-меню динамита.
+     */
+    private void extractResourcePack() {
+        String[] rpFiles = {
+                "resourcepack/pack.mcmeta",
+                "resourcepack/assets/minecraft/models/item/paper.json",
+                "resourcepack/assets/minecraft/models/item/homadinamit/obychnyi.json",
+                "resourcepack/assets/minecraft/models/item/homadinamit/moshchnyi.json",
+                "resourcepack/assets/minecraft/models/item/homadinamit/ognenyi.json",
+                "resourcepack/assets/minecraft/models/item/homadinamit/ledyanoi.json",
+                "resourcepack/assets/minecraft/models/item/homadinamit/molnievyi.json",
+                "resourcepack/assets/minecraft/models/item/homadinamit/klasternyi.json",
+                "resourcepack/assets/minecraft/models/item/homadinamit/podvodnyi.json",
+                "resourcepack/assets/minecraft/models/item/homadinamit/yadernyi.json",
+                "resourcepack/1_21_2/assets/minecraft/items/paper.json"
+        };
+
+        for (String resourcePath : rpFiles) {
+            File outFile = new File(getDataFolder(), resourcePath);
+            if (outFile.exists()) continue;
+            if (!outFile.getParentFile().exists()) {
+                if (!outFile.getParentFile().mkdirs()) {
+                    getLogger().warning("Не удалось создать директорию: " + outFile.getParentFile());
+                    continue;
+                }
+            }
+            try (InputStream in = getResource(resourcePath)) {
+                if (in == null) {
+                    getLogger().warning("Ресурс не найден в jar: " + resourcePath);
+                    continue;
+                }
+                Files.copy(in, outFile.toPath());
+            } catch (Exception e) {
+                getLogger().warning("Не удалось извлечь " + resourcePath + ": " + e.getMessage());
+            }
+        }
+        getLogger().info("Файлы ресурс-пака извлечены в: plugins/HomaDinamit/resourcepack/");
+    }
 
     /**
      * Выводит приветственный баннер плагина в консоль.

@@ -1,0 +1,45 @@
+{
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "minecraft:custom_model_data",
+    "index": 0,
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "minecraft:item/paper"
+    },
+    "entries": [
+      {
+        "threshold": 1001,
+        "model": { "type": "minecraft:model", "model": "minecraft:item/homadinamit/obychnyi"  }
+      },
+      {
+        "threshold": 1002,
+        "model": { "type": "minecraft:model", "model": "minecraft:item/homadinamit/moshchnyi"  }
+      },
+      {
+        "threshold": 1003,
+        "model": { "type": "minecraft:model", "model": "minecraft:item/homadinamit/ognenyi"    }
+      },
+      {
+        "threshold": 1004,
+        "model": { "type": "minecraft:model", "model": "minecraft:item/homadinamit/ledyanoi"   }
+      },
+      {
+        "threshold": 1005,
+        "model": { "type": "minecraft:model", "model": "minecraft:item/homadinamit/molnievyi"  }
+      },
+      {
+        "threshold": 1006,
+        "model": { "type": "minecraft:model", "model": "minecraft:item/homadinamit/klasternyi" }
+      },
+      {
+        "threshold": 1007,
+        "model": { "type": "minecraft:model", "model": "minecraft:item/homadinamit/podvodnyi"  }
+      },
+      {
+        "threshold": 1008,
+        "model": { "type": "minecraft:model", "model": "minecraft:item/homadinamit/yadernyi"   }
+      }
+    ]
+  }
+}
