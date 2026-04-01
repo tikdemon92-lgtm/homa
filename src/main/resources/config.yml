@@ -1,0 +1,41 @@
+# ╔══════════════════════════════════════════════════════╗
+# ║             HomaDinamit — Конфигурация              ║
+# ╚══════════════════════════════════════════════════════╝
+
+# Настройки GUI меню
+gui:
+  title: "✦ Homa Динамит ✦"
+  rows: 6
+
+# Настройки взрывов
+explosions:
+  # Включить/выключить повреждение блоков от взрывов
+  block-damage: true
+  # Включить/выключить поджигание блоков от огненного динамита
+  set-fire: true
+  # Проверять разрешения при установке динамита
+  check-permissions: true
+
+# Настройки кулдаунов (в секундах, 0 — без ограничений)
+cooldowns:
+  obychnyi: 0
+  moshchnyi: 5
+  ognenyi: 5
+  ledyanoi: 5
+  molnievyi: 10
+  klasternyi: 10
+  podvodnyi: 5
+  yadernyi: 30
+
+# Настройки сообщений
+messages:
+  prefix: "&8[&c✦ &6HomaDinamit &c✦&8] &r"
+  no-permission: "&cУ вас недостаточно прав для этого действия."
+  cooldown: "&eПодождите ещё &c%seconds% &eсек. перед следующим использованием."
+  received: "&aВы получили &6%amount%x %name%&a!"
+  invalid-type: "&cНеизвестный тип динамита."
+  player-only: "&cЭта команда доступна только игрокам."
+  usage-give: "&eИспользование: &f/dinamit give <игрок> <тип> [количество]"
+  player-not-found: "&cИгрок &f%player% &cне найден."
+  given-to: "&aВыдано &6%amount%x %name% &aигроку &f%player%&a."
+  reload: "&aКонфигурация успешно перезагружена."
